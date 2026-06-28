@@ -39,7 +39,7 @@ jobs:
           publish_dir: ./packages/preview-astro/dist
         if: github.ref == 'refs/heads/master'
       - name: generate notes
-        run: gh api /repos/react-icons/react-icons/releases/generate-notes -f tag_name=${GITHUB_REF#tags/} --jq .body >> RELEASE_NOTES
+        run: gh api /repos/${GITHUB_REPOSITORY}/releases/generate-notes -f tag_name=${GITHUB_REF#tags/} --jq .body >> RELEASE_NOTES
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: contains(github.ref, 'tags/')
