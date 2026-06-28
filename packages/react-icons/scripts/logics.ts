@@ -22,11 +22,85 @@ export async function convertIconData(
   const $doc = cheerioLoad(svg, { xmlMode: true });
   const $svg = $doc("svg");
 
+  const shouldDropNamespacedAttr = (name: string) => {
+    if (!name.includes(":")) {
+      return false;
+    }
+    return !name.startsWith("xlink:");
+  };
+
+  const normalizeAttrName = (name: string) => {
+    if (name.startsWith("aria-")) {
+      return name;
+    }
+    if (name.startsWith("xlink:")) {
+      const suffix = name.slice("xlink:".length);
+      return `xlink${camelcase(suffix, { pascalCase: true })}`;
+    }
+    return camelcase(name);
+  };
+
+  const parseInlineStyle = (value: string) =>
+    value
+      .split(";")
+      .map((entry) => entry.trim())
+      .filter(Boolean)
+      .map((entry) => {
+        const separatorIndex = entry.indexOf(":");
+        if (separatorIndex === -1) {
+          return null;
+        }
+        const name = entry.slice(0, separatorIndex).trim();
+        const styleValue = entry.slice(separatorIndex + 1).trim();
+        if (!name || !styleValue) {
+          return null;
+        }
+        return { name, value: styleValue };
+      })
+      .filter((item): item is { name: string; value: string } => item !== null);
+
   // filter/convert attributes
   // 1. remove class attr
   // 2. convert to camelcase ex: fill-opacity => fillOpacity
-  const attrConverter = (attribs: Record<string, string>, tagName: string) =>
-    attribs &&
+  const attrConverter = (attribs: Record<string, string>, tagName: string) => {
+    if (!attribs) {
+      return {};
+    }
+
+    const converted = {} as Record<string, string>;
+    const addAttr = (name: string, value: string) => {
+      if (shouldDropNamespacedAttr(name)) {
+        return;
+      }
+
+      const newName = normalizeAttrName(name);
+      switch (newName) {
+        case "fill":
+        case "stroke":
+          if (value === "none" || value === "currentColor" || multiColor) {
+            converted[newName] = value;
+          }
+          break;
+        case "pId":
+          break;
+        case "dataName":
+          break;
+        case "style":
+          // React expects style to be an object, so convert inline style entries
+          // into normal SVG attributes and skip string style assignment.
+          parseInlineStyle(value).forEach((styleEntry) => {
+            addAttr(styleEntry.name, styleEntry.value);
+          });
+          break;
+        default:
+          if (name.startsWith("data")) {
+            break;
+          }
+          converted[newName] = value;
+          break;
+      }
+    };
+
     Object.keys(attribs)
       .filter(
         (name) =>
@@ -34,38 +108,15 @@ export async function convertIconData(
             "class",
             ...(tagName === "svg"
               ? ["xmlns", "xmlns:xlink", "xml:space", "width", "height"]
-              : []), // if tagName is svg remove size attributes
+              : []),
           ].includes(name),
       )
-      .reduce(
-        (obj, name) => {
-          const newName = name.startsWith("aria-") ? name : camelcase(name);
-          switch (newName) {
-            case "fill":
-            case "stroke":
-              if (
-                attribs[name] === "none" ||
-                attribs[name] === "currentColor" ||
-                multiColor
-              ) {
-                obj[newName] = attribs[name];
-              }
-              break;
-            case "pId":
-              break;
-            case "dataName":
-              break;
-            default:
-              if (name.startsWith("data")) {
-                break;
-              }
-              obj[newName] = attribs[name];
-              break;
-          }
-          return obj;
-        },
-        {} as Record<string, string>,
-      );
+      .forEach((name) => {
+        addAttr(name, attribs[name]);
+      });
+
+    return converted;
+  };
 
   // convert to [ { tag: 'path', attr: { d: 'M436 160c6.6 ...', ... }, child: { ... } } ]
   function elementToTree(element: Cheerio<CheerioElement>): IconTree[] {

@@ -797,4 +797,27 @@ export const icons: IconDefinition[] = [
       hash: "78a101217707c9b1c4dcf2a821be75684e36307f",
     },
   },
+  {
+    id: "sh",
+    name: "Selfhst",
+    contents: [
+      {
+        files: path.resolve(__dirname, "../../icons/selfhst/svg/*.svg"),
+        formatter: (name) => `Sh${name}`,
+        multiColor: true,
+        processWithSVGO: true,
+      },
+    ],
+    projectUrl: "https://github.com/selfhst/icons",
+    license: "CC BY 4.0",
+    licenseUrl: "https://github.com/selfhst/icons/blob/main/LICENSE",
+    source: {
+      type: "git",
+      localName: "selfhst",
+      remoteDir: "svg/",
+      url: "https://github.com/selfhst/icons.git",
+      branch: "main",
+      hash: "b489eb0fc9ac681dc756cb64e54588303153ca68",
+    },
+  },
 ];
