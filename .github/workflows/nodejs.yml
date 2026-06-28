@@ -57,5 +57,8 @@ jobs:
           artifacts: "packages/_react-icons_*/*.tgz"
           bodyFile: "RELEASE_NOTES"
           token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          artifactErrorsFailBuild: true
+          removeArtifacts: true
           prerelease: ${{ contains(github.ref, 'snapshot') }}
         if: contains(github.ref, 'tags/')
