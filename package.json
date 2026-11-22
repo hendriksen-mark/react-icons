@@ -43,7 +43,7 @@
     "format:ci": "prettier --check --ignore-unknown '**/*.{js,ts,mjs,cjs,json,astro}'",
     "version-up": "npx lerna@9.0.7 version",
     "version-snapshot": "npx lerna@9.0.7 version --no-push --no-git-tag-version --yes --preid snapshot prepatch --force-publish",
-    "version": "yarn install && git add .",
+    "version": "corepack yarn install && git add .",
     "lerna": "npx lerna@9.0.7"
   },
   "packageManager": "yarn@4.17.0"
