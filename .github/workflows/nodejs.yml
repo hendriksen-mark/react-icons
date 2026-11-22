@@ -60,8 +60,14 @@ jobs:
           removeArtifacts: true
           prerelease: ${{ contains(github.ref, 'snapshot') }}
         if: startsWith(github.ref, 'refs/tags/')
-      - name: Stage npm publish
-        run: npx -y npm@^11.18.0 stage publish
+      - name: Publish to npm
+        run: |
+          npm pkg set 'name=@markhhh/react-icons' 'repository.url=git+https://github.com/hendriksen-mark/react-icons.git'
+          if [[ "${GITHUB_REF}" == *snapshot* ]]; then
+            npx -y npm@^11.18.0 publish --access public --tag next
+          else
+            npx -y npm@^11.18.0 publish --access public
+          fi
         working-directory: packages/_react-icons_all
         if: startsWith(github.ref, 'refs/tags/')
 
