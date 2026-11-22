@@ -9,6 +9,42 @@
 
 Include popular icons in your React projects easily with `react-icons`, which utilizes ES6 imports that allows you to include only the icons that your project is using.
 
+## Using this fork
+
+Install the published fork as `react-icons` to keep existing imports working:
+
+```bash
+npm install react-icons@npm:@markhhh/react-icons
+```
+
+### Publishing the fork
+
+The tag workflow publishes `@markhhh/react-icons` using npm trusted publishing.
+For the first release, the package must already exist on npm:
+
+1. Run the development build below, then from the repository root publish once
+   from the generated package:
+
+   ```bash
+   cd packages/_react-icons_all
+   npm pkg set 'name=@markhhh/react-icons' 'repository.url=git+https://github.com/hendriksen-mark/react-icons.git'
+   npm login
+   npm publish --access public
+   npm pkg set 'name=react-icons' 'repository.url=git+ssh://git@github.com:react-icons/react-icons.git'
+   ```
+
+   The last command restores the workspace metadata. If publishing fails, run
+   it before installing dependencies again; the build also regenerates it.
+2. In the npm package settings, add a GitHub Actions trusted publisher with
+   owner `hendriksen-mark`, repository `react-icons`, workflow `nodejs.yml`,
+   and permission to run `npm publish`. Complete the first trusted publish
+   within two days of configuring it.
+3. Increase the package version and push a new Git tag. Each version can only
+   be published once. Snapshot tags publish under the `next` dist-tag.
+
+The workflow's downloadable build artifacts retain the upstream package name;
+the npm publishing step applies the fork's name and repository URL.
+
 ## Installation (for standard modern project)
 
 ```bash
