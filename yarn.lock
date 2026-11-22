@@ -5240,7 +5240,7 @@ __metadata:
     jsdom: "npm:^29.1.1"
     react: "npm:^19.2.7"
     react-dom: "npm:^19.2.7"
-    react-icons: "npm:^5.7.0"
+    react-icons: "npm:^5.7.1"
     vite: "npm:^7.3.5"
     vitest: "npm:^4.1.9"
   languageName: unknown
@@ -5256,7 +5256,7 @@ __metadata:
     jsdom: "npm:^29.1.1"
     react: "npm:^19.2.7"
     react-dom: "npm:^19.2.7"
-    react-icons: "npm:^5.7.0"
+    react-icons: "npm:^5.7.1"
     vite: "npm:^7.3.5"
     vitest: "npm:^4.1.9"
   languageName: unknown
@@ -7479,7 +7479,7 @@ __metadata:
     prop-types: "npm:^15.8.1"
     react: "npm:^19.2.7"
     react-dom: "npm:^19.2.7"
-    react-icons: "npm:^5.7.0"
+    react-icons: "npm:^5.7.1"
     sass: "npm:^1.101.0"
     tiny-skeleton-loader-react: "npm:^1.2.1"
     typescript: "npm:^6.0.3"
@@ -7574,7 +7574,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"react-icons@npm:^5.7.0, react-icons@workspace:packages/_react-icons_all":
+"react-icons@npm:^5.7.1, react-icons@workspace:packages/_react-icons_all":
   version: 0.0.0-use.local
   resolution: "react-icons@workspace:packages/_react-icons_all"
   peerDependencies:
@@ -7646,7 +7646,7 @@ __metadata:
     jsdom: "npm:^29.1.1"
     react: "npm:^19.2.7"
     react-dom: "npm:^19.2.7"
-    react-icons: "npm:^5.7.0"
+    react-icons: "npm:^5.7.1"
     typescript: "npm:6.0.3"
     vite: "npm:^7.3.5"
     vitest: "npm:^4.1.9"
@@ -9562,7 +9562,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "webpack4-test@workspace:packages/webpack4-test"
   dependencies:
-    react-icons: "npm:^5.7.0"
+    react-icons: "npm:^5.7.1"
     webpack: "npm:^5.107.2"
     webpack-cli: "npm:^4.10.0"
   languageName: unknown
